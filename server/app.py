@@ -20,7 +20,7 @@ db.init_app(app)
 
 @app.get('/messages')
 def get_messages():
-    messages = Message.query.order_by(desc('created_at'))
+    messages = Message.query.order_by('created_at')
     return [msg.to_dict() for msg in messages]
 
 @app.post('/messages')
@@ -33,8 +33,7 @@ def create_message():
 @app.patch('/messages/<int:id>')
 def update_message(id):
     message = Message.query.get_or_404(id)
-    print(message)
-    print(request.json['body'])
+
     if 'body' in request.json:
         message.body = request.json['body']
     db.session.commit()
